@@ -268,4 +268,4 @@ const ProductPage = ({ user }) => {
 
 };
 
-export default ProductPage
+export default ProductPage;

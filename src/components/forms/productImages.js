@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 import pablo from "../../assets/pablo.png";
 import PhotoLoader from '../photoLoader/photoLoader';
-
 const ProductImages = ({ productId }) => {
-
-    const history = useHistory();
-
-    //Body: conforms the key/values to be send to MongoDB
-    const [body, setBody] = useState({
-        description: "no description provided for the product",
+    /* console.log(productCreated) */
+    /*//////////////////////////////////*/
+    const [descData, setDescData] = useState({
+        description: undefined
     });
-
-    console.log(productId);
-    console.log(body)
-
+    //Body: conforms the key/values to be send to MongoDB
+    const secondbody = {
+        description: descData.description,
+        //  id: productId
+    };
     //añadir fetch de imagenes y de descripcion
     const updateDescription = () => {
         const options = {
@@ -22,15 +19,16 @@ const ProductImages = ({ productId }) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(body),
+            body: JSON.stringify(secondbody),
         };
         fetch(`http://localhost:5000/api/products/${productId}`, options)
-            .then(response => response.json())
-            .then(json => console.log(json));
-
-        history.push('/yourListings')
+        /*
+        .then(response => response.json())
+        .then(json => console.log(json))
+        .then(json => setDescData(json.productId))
+        console.log("Product: " . $productId);
+        */
     }
-
     return (
         <div className="main_form_container">
             <div className="form_container">
@@ -48,16 +46,16 @@ const ProductImages = ({ productId }) => {
                             rows="8"
                             type="text"
                             onChange={(e) =>
-                                setBody({ ...body, description: e.target.value })
+                                setDescData({ ...descData, description: e.target.value })
                             }
                         />
                         <div className="form_title2">
                             <h2>Pictures</h2>
                         </div>
                         <div className="photoLoader">
-                            <PhotoLoader
-                                productId={productId}
-                            />
+                        <PhotoLoader
+                            productId={productId}
+                        />
                         </div>
                         <button className="button_a" onClick={updateDescription}>
                             <h1 className="button_content">Create Listing</h1>
